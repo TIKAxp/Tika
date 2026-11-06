@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Your Name</title>
-<meta name="description" content="Bio page">
-<meta property="og:title" content="Your Name">
-<meta property="og:description" content="Bio page">
+<title>Slayer Tika</title>
+<meta name="description" content="Dev · Gamer · Dân chơi đêm">
+<meta property="og:title" content="Slayer Tika">
+<meta property="og:description" content="Dev · Gamer · Dân chơi đêm">
 <meta property="og:type" content="profile">
 <meta name="theme-color" content="#07070b">
 <link rel="icon" id="fav" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖤</text></svg>">
@@ -67,8 +67,46 @@ h1{font:700 2.1rem/1.15 Outfit,sans-serif;letter-spacing:.02em;background:linear
 .vf{width:22px;height:22px;flex:none}
 .un{margin-top:2px;font-size:.88rem;color:var(--muted);transition:color .2s}
 .un:hover{color:var(--text)}
-.badges{display:flex;justify-content:center;gap:7px;margin-top:14px;flex-wrap:wrap}
-.badges span{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.045);font-size:1rem}
+/* ---------- badges premium ---------- */
+.badges{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+.badges .bdg{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:36px;
+  height:36px;
+  padding:0 10px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 4px 12px rgba(0,0,0,.25);
+  transition:transform .25s, border-color .25s, box-shadow .25s;
+  font-size:1.05rem;
+  line-height:1;
+}
+.badges .bdg:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--accent) 45%,transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 20px rgba(0,0,0,.35),
+    0 0 20px -6px color-mix(in srgb,var(--accent) 40%,transparent);
+}
+.badges .bdg img{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  border-radius:4px;
+  display:block;
+}
 #typed{min-height:1.5em;margin-top:16px;font-weight:500;font-size:.95rem;color:color-mix(in srgb,var(--accent) 75%,#fff)}
 #typed::after{content:"";display:inline-block;width:1.5px;height:1em;margin-left:3px;vertical-align:-2px;background:currentColor;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
@@ -172,12 +210,18 @@ const CONFIG = {
   location: "📍 Vietnam",
   showTime: true,                // giờ địa phương
   timezone: "Asia/Ho_Chi_Minh",
-  badges: ["🎬", "👑", "🔥", "🌙"],
-  typed: ["Có những người sinh ra để làm nên chuyện.", "Im lặng không phải là yếu.", "Đêm còn dài, mình còn nhiều cảnh phải quay.", "Chương tiếp theo: chưa ai biết."],
-  bio: "Dev · Gamer · Cú đêm 🌙\nMở DM nếu bạn cùng tần số.",   // hỗ trợ nhiều dòng (\n), emoji, Unicode
+  badges: ["🎬", "👑", "🔥", "🌙"],   // hỗ trợ emoji unicode + Discord custom <:name:id> / <a:name:id>
+  typed: [
+    "Tiền không phải là tất cả, nhưng thiếu nó thì đừng nói chuyện.",
+    "Im lặng là vàng, nhưng tiền mới là kim cương.",
+    "Đêm nào cũng có chuyện, chỉ khác người chơi thôi.",
+    "Chơi lớn thì phải chịu lớn.",
+    "Không phải ai cũng xứng được ngồi cùng bàn."
+  ],
+  bio: "Dev · Gamer · Dân chơi đêm\nMở DM nếu cùng tần số.\nKhông thích thì lướt.",
   links: [   // thêm / xoá tuỳ ý. icon: discord github tiktok youtube instagram facebook telegram link
     { label: "Discord Profile", note: "slayer.tika", url: "https://discord.com/users/718755571699810344", icon: "discord"},
-    { label: "Discord Profile", note: "Tham gia cộng đồng Dân Chơi", url: "https://dsc.gg/danchoi", icon: "discord"},
+    { label: "Discord Server", note: "Tham gia cộng đồng Dân Chơi", url: "https://dsc.gg/danchoi", icon: "discord"},
     { label: "GitHub", url: "https://github.com/slayer-tika", icon: "github" },
     { label: "TikTok", url: "https://tiktok.com/@slayer.tika", icon: "tiktok" },
     { label: "YouTube", url: "https://youtube.com/@slayer.tika", icon: "youtube" },
@@ -197,24 +241,24 @@ const RM = CONFIG.respectReducedMotion && matchMedia('(prefers-reduced-motion:re
 const FINE = matchMedia('(any-hover:hover)').matches;
 if (RM) document.documentElement.classList.add('rm');
 
-/* ---- Icons (inline, không cần thư viện) ---- */
+/* ---- Icons (inline) ---- */
 const B = {
-  discord:'M20.3 4.4A19 19 0 0 0 15.6 3l-.2.4a17 17 0 0 1 4 1.9 14 14 0 0 0-12.8 0 17 17 0 0 1 4-1.9L10.4 3a19 19 0 0 0-4.7 1.4C2.7 8.8 1.9 13.100 2.300 17.300A19 19 0 0 0 8 20.200l.9-1.500a12 12 0 0 1-1.900-.9l.5-.4a13.600 13.600 0 0 0 11 0l.5.4a12 12 0 0 1-1.900.9l.9 1.500a19 19 0 0 0 5.700-2.900c.5-4.900-.8-9.200-3.400-12.900zM9.300 14.700c-1.100 0-2-1-2-2.200s.9-2.200 2-2.200 2 1 2 2.200-.9 2.200-2 2.200zm5.400 0c-1.100 0-2-1-2-2.200s.9-2.200 2-2.200 2 1 2 2.200-.9 2.200-2 2.200z',
-  github:'M12 2a10 10 0 0 0-3.200 19.500c.5.1.7-.2.7-.5v-1.700c-2.800.6-3.400-1.200-3.400-1.200-.5-1.200-1.100-1.500-1.100-1.500-.9-.6.1-.6.1-.6 1 .1 1.500 1 1.500 1 .9 1.500 2.300 1.100 2.900.8.1-.7.4-1.100.6-1.300-2.200-.3-4.600-1.100-4.600-5 0-1.100.4-2 1-2.700-.1-.3-.4-1.300.1-2.700 0 0 .8-.3 2.800 1a9.600 9.600 0 0 1 5 0c1.900-1.300 2.800-1 2.800-1 .5 1.400.2 2.400.1 2.700.6.7 1 1.600 1 2.700 0 3.900-2.400 4.700-4.600 5 .4.3.7.9.7 1.900v2.800c0 .3.2.6.7.5A10 10 0 0 0 12 2z',
-  tiktok:'M16.600 2h-3.200v13.200a2.800 2.800 0 1 1-2.800-2.800c.3 0 .6 0 .8.1V9.200a6 6 0 1 0 5.200 5.900V8.500a7 7 0 0 0 4 1.300V6.600a4 4 0 0 1-4-4.600z',
-  youtube:'M21.600 7.200a2.500 2.500 0 0 0-1.800-1.800C18.200 5 12 5 12 5s-6.200 0-7.800.4A2.500 2.500 0 0 0 2.400 7.200C2 8.800 2 12 2 12s0 3.200.4 4.800a2.500 2.500 0 0 0 1.800 1.800C5.800 19 12 19 12 19s6.200 0 7.800-.4a2.500 2.500 0 0 0 1.800-1.800c.4-1.600.4-4.800.4-4.800s0-3.200-.4-4.800zM10 15V9l5.200 3z',
-  instagram:'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.500-3.500a1.200 1.200 0 1 0 0 2.400 1.200 1.200 0 0 0 0-2.400z',
-  facebook:'M24 12.070C24 5.400 18.630 0 12 0S0 5.400 0 12.070C0 18.100 4.390 23.100 10.130 24v-8.440H7.080v-3.490h3.050V9.410c0-3.020 1.800-4.700 4.540-4.700 1.310 0 2.680.24 2.680.24v2.970h-1.500c-1.500 0-1.960.93-1.960 1.890v2.260h3.330l-.53 3.490h-2.800V24C19.620 23.100 24 18.100 24 12.070z'
+  discord:'M20.3 4.4A19 19 0 0 0 15.6 3l-.2.4a17 17 0 0 1 4 1.9 14 14 0 0 0-12.8 0 17 17 0 0 1 4-1.9L10.4 3a19 19 0 0 0-4.7 1.4C2.7 8.8 1.9 13.1 2.3 17.3A19 19 0 0 0 8 20.2l.9-1.5a12 12 0 0 1-1.9-.9l.5-.4a13.6 13.6 0 0 0 11 0l.5.4a12 12 0 0 1-1.9.9l.9 1.5a19 19 0 0 0 5.7-2.9c.5-4.9-.8-9.2-3.4-12.9zM9.3 14.7c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2zm5.4 0c-1.1 0-2-1-2-2.2s.9-2.2 2-2.2 2 1 2 2.2-.9 2.2-2 2.2z',
+  github:'M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2z',
+  tiktok:'M16.6 2h-3.2v13.2a2.8 2.8 0 1 1-2.8-2.8c.3 0 .6 0 .8.1V9.2a6 6 0 1 0 5.2 5.9V8.5a7 7 0 0 0 4 1.3V6.6a4 4 0 0 1-4-4.6z',
+  youtube:'M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3z',
+  instagram:'M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-3.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z',
+  facebook:'M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.62 23.1 24 18.1 24 12.07z'
 };
 const S = {
   telegram:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
-  link:'<path d="M10 13a5 5 0 0 0 7.500.5l3-3a5 5 0 0 0-7-7l-1.700 1.700"/><path d="M14 11a5 5 0 0 0-7.500-.5l-3 3a5 5 0 0 0 7 7l1.700-1.700"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
   pin:'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
   clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
-  eye:'<path d="M2 12s3.500-7 10-7 10 7 10 7-3.500 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
-  play:'<path d="M7 4.500v15l13-7.500Z" fill="currentColor"/>',
-  pause:'<path d="M8 5v14M16 5v14" stroke-width="3.500"/>',
-  vol:'<path d="M11 5 6 9H2v6h4l5 4Z"/><path d="M15.500 8.500a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
+  eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>',
+  play:'<path d="M7 4.5v15l13-7.5Z" fill="currentColor"/>',
+  pause:'<path d="M8 5v14M16 5v14" stroke-width="3.5"/>',
+  vol:'<path d="M11 5 6 9H2v6h4l5 4Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
   mute:'<path d="M11 5 6 9H2v6h4l5 4Z"/><path d="m22 9-6 6M16 9l6 6"/>'
 };
 const COL = {discord:'#5865F2',github:'#e6edf3',tiktok:'#25f4ee',youtube:'#ff2a3d',instagram:'#e1306c',facebook:'#1877f2',telegram:'#27a7e7'};
@@ -240,9 +284,22 @@ $('splashText').textContent = CONFIG.splashText;
 $('avatar').src = CONFIG.avatar;
 $('name').textContent = CONFIG.name;
 $('bio').textContent = CONFIG.bio;
-$('badges').innerHTML = CONFIG.badges.map(b => `<span>${b}</span>`).join('');
-if (!CONFIG.badges.length) $('badges').remove();
-if (CONFIG.verified) $('vf').innerHTML = `<svg class="vf" viewBox="0 0 24 24" aria-label="Verified"><path d="M12 2l2.400 2.200 3.200-.4 1.200 3 2.900 1.500-.9 3.100.9 3.100-2.900 1.500-1.200 3-3.200-.4L12 22l-2.400-2.200-3.200.4-1.200-3-2.900-1.500.9-3.100-.9-3.100 2.900-1.500 1.200-3 3.200.4Z" fill="var(--accent)"/><path d="m8.500 12 2.500 2.500 4.500-5" fill="none" stroke="#0b0b10" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* ---- Badges (hỗ trợ emoji Discord tùy chỉnh) ---- */
+function parseBadge(b) {
+  const m = String(b).match(/^<(a)?:([\w~]+):(\d+)>$/);
+  if (m) {
+    const animated = !!m[1];
+    const id = m[3];
+    const ext = animated ? 'gif' : 'png';
+    return `<span class="bdg"><img src="https://cdn.discordapp.com/emojis/${id}.${ext}?size=48&quality=lossless" alt="${m[2]}" loading="lazy"></span>`;
+  }
+  return `<span class="bdg">${b}</span>`;
+}
+$('badges').innerHTML = (CONFIG.badges || []).map(parseBadge).join('');
+if (!CONFIG.badges?.length) $('badges').remove();
+
+if (CONFIG.verified) $('vf').innerHTML = `<svg class="vf" viewBox="0 0 24 24" aria-label="Verified"><path d="M12 2l2.4 2.2 3.2-.4 1.2 3 2.9 1.5-.9 3.1.9 3.1-2.9 1.5-1.2 3-3.2-.4L12 22l-2.4-2.2-3.2.4-1.2-3-2.9-1.5.9-3.1-.9-3.1 2.9-1.5 1.2-3 3.2.4Z" fill="var(--accent)"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="#0b0b10" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 const un = $('un');
 if (CONFIG.username) {
