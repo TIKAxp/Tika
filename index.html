@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Slayer Tika | Dân Chơi</title>
 
+<title>Slayer Tika | Dân Chơi</title>
 <meta name="description" content="Developer · Gamer · Underground">
 <meta property="og:title" content="Slayer Tika | Dân Chơi">
 <meta property="og:description" content="Developer · Gamer · Underground">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://tikaxp.github.io/Tika/assets/danchoi.gif">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#07070b">
 
 <link rel="icon" id="fav" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%A4%3C/text%3E%3C/svg%3E">
@@ -54,9 +55,11 @@ button {
   cursor:pointer;
 }
 
-#bg,.aurora {
-  display:none!important;
-}
+svg {display:block}
+
+/* BACKGROUND */
+
+#bg,.aurora {display:none!important}
 
 .grid {
   position:fixed;
@@ -105,88 +108,50 @@ body::before {
   );
 }
 
-/* =================================
-   SPLASH - MINIMAL FINGERPRINT
-================================= */
+/* ================================
+   CYBERPUNK SPLASH SCREEN
+================================ */
 
 #splash {
   position:fixed;
   inset:0;
   z-index:100;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  padding:6px 5px;
-  background:#050709;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(ellipse at 50% 45%,
+      rgba(57,255,20,.10),
+      transparent 55%),
+    #050709;
   cursor:pointer;
   text-align:center;
   overflow:hidden;
-  transition:opacity .5s,visibility .5s;
+  transition:opacity .8s,visibility .8s;
 }
 
-#splash::before,
+#splash::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(57,255,20,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(57,255,20,.035) 1px,transparent 1px);
+  background-size:45px 45px;
+  -webkit-mask-image:radial-gradient(ellipse,#000,transparent 75%);
+  mask-image:radial-gradient(ellipse,#000,transparent 75%);
+}
+
 #splash::after {
-  display:none;
-}
-
-.intro {
-  width:100%;
-  height:108px;
-  padding:12px;
-  border:1px solid rgba(57,255,20,.35);
-  border-radius:13px;
-  background:rgba(255,255,255,.008);
-  box-shadow:none;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  animation:none;
-  transition:border-color .3s,box-shadow .3s;
-}
-
-.intro:hover {
-  border-color:rgba(57,255,20,.75);
-  box-shadow:0 0 20px rgba(57,255,20,.06);
-}
-
-.intro-top,
-.intro-bottom,
-.intro-orbit,
-.intro-kicker,
-.intro-line,
-.intro-motto,
-.intro-sub,
-.intro-enter {
-  display:none;
-}
-
-.fingerprint {
-  width:25px;
-  height:25px;
-  color:#39ff14;
-  filter:drop-shadow(0 0 5px rgba(57,255,20,.5));
-  margin-bottom:3px;
-}
-
-#splash h2 {
-  font:700 15px/1.3 Inter,sans-serif;
-  letter-spacing:0;
-  color:#f4f4f4;
-  background:none;
-  -webkit-background-clip:initial;
-  background-clip:initial;
-  -webkit-text-fill-color:initial;
-  margin:0;
-}
-
-#splash .intro p {
-  color:#929292;
-  font:400 11px/1.4 Inter,sans-serif;
-  margin:4px 0 0;
+  content:"";
+  position:absolute;
+  width:400px;
+  height:400px;
+  border-radius:50%;
+  background:#39ff14;
+  filter:blur(180px);
+  opacity:.09;
+  pointer-events:none;
 }
 
 #splash.hide {
@@ -195,7 +160,223 @@ body::before {
   pointer-events:none;
 }
 
-/* MAIN */
+.intro {
+  position:relative;
+  z-index:2;
+  width:min(500px,calc(100vw - 40px));
+  padding:20px;
+  border:1px solid rgba(57,255,20,.20);
+  border-radius:24px;
+  background:linear-gradient(
+    145deg,
+    rgba(255,255,255,.045),
+    rgba(255,255,255,.008)
+  );
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:
+    0 0 50px rgba(57,255,20,.055),
+    inset 0 1px rgba(255,255,255,.07);
+  animation:introIn 1.2s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes introIn {
+  from {
+    opacity:0;
+    transform:translateY(25px) scale(.96);
+    filter:blur(10px);
+  }
+  to {
+    opacity:1;
+    transform:translateY(0) scale(1);
+    filter:blur(0);
+  }
+}
+
+.intro-top,
+.intro-bottom {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:#718477;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+.intro-top span:first-child {
+  color:#39ff14;
+}
+
+.intro-live {
+  color:#39ff14;
+  animation:livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+  50% {opacity:.35}
+}
+
+.intro-center {
+  text-align:center;
+  padding:48px 0 40px;
+}
+
+/* Orbit */
+
+.intro-orbit {
+  position:relative;
+  width:90px;
+  height:90px;
+  margin:0 auto 30px;
+  display:grid;
+  place-items:center;
+  color:#39ff14;
+  font-size:38px;
+  text-shadow:0 0 25px #39ff14;
+}
+
+.orbit-ring {
+  position:absolute;
+  inset:0;
+  border:1px solid rgba(57,255,20,.65);
+  border-radius:50%;
+  animation:spin 8s linear infinite;
+}
+
+.orbit-ring::before {
+  content:"";
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#39ff14;
+  box-shadow:0 0 15px #39ff14;
+  top:8px;
+  left:12px;
+}
+
+.ring-two {
+  inset:-10px;
+  border-style:dashed;
+  opacity:.35;
+  animation:spin 15s linear infinite reverse;
+}
+
+.intro-kicker {
+  font-size:10px;
+  letter-spacing:4px;
+  color:#84918a;
+  margin-bottom:12px;
+}
+
+#splash h2 {
+  font:800 clamp(2.3rem,9vw,3.8rem)/1 Outfit,sans-serif;
+  letter-spacing:.08em;
+  padding:0;
+  background:linear-gradient(180deg,#fff,#a9ff9b 65%,#39ff14);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.intro-line {
+  width:100px;
+  height:2px;
+  margin:22px auto;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #39ff14,
+    transparent
+  );
+  box-shadow:0 0 15px rgba(57,255,20,.6);
+}
+
+.intro-motto {
+  color:#39ff14;
+  font:700 17px Outfit,sans-serif;
+  letter-spacing:4px;
+}
+
+.intro-sub {
+  margin-top:12px;
+  font-size:10px;
+  letter-spacing:2px;
+  color:#77847a;
+}
+
+/* Enter button */
+
+.intro-enter {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  text-align:left;
+  margin-top:38px;
+  padding:17px;
+  border:1px solid rgba(57,255,20,.3);
+  border-radius:15px;
+  background:rgba(57,255,20,.045);
+  transition:.3s;
+}
+
+.intro-enter:hover {
+  border-color:#39ff14;
+  background:rgba(57,255,20,.11);
+  box-shadow:0 0 30px rgba(57,255,20,.12);
+  transform:translateY(-3px);
+}
+
+.enter-icon {
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  color:#061006;
+  background:#39ff14;
+  font-size:22px;
+}
+
+.intro-enter div {flex:1}
+
+.intro-enter b {
+  display:block;
+  color:#fff;
+  font:700 13px Outfit,sans-serif;
+  letter-spacing:1px;
+}
+
+.intro-enter small {
+  display:block;
+  color:#84918a;
+  font-size:9px;
+  letter-spacing:1px;
+  margin-top:4px;
+}
+
+.enter-arrow {
+  color:#39ff14;
+  font-size:22px;
+  animation:arrowMove 1.2s ease-in-out infinite;
+}
+
+@keyframes arrowMove {
+  50% {transform:translateX(5px)}
+}
+
+.intro-bottom {
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+#splash.hide .intro {
+  transform:scale(1.04);
+  opacity:0;
+  transition:.7s;
+}
+
+/* MAIN LAYOUT */
 
 main {
   min-height:100vh;
@@ -230,7 +411,7 @@ body.go .rv {
   }
 }
 
-/* PROFILE CARD */
+/* MAIN CARD */
 
 .card {
   position:relative;
@@ -404,11 +585,11 @@ body.go .rv {
 }
 
 @keyframes pulse {
-  0% {box-shadow:0 0 0 0 rgba(35,165,90,.55)}
+  0% {box-shadow:0 0 0 0 color-mix(in srgb,currentColor 55%,transparent)}
   70%,100% {box-shadow:0 0 0 9px transparent}
 }
 
-/* NAME */
+/* IDENTITY */
 
 .nm {
   display:flex;
@@ -486,7 +667,7 @@ h1 {
   display:block;
 }
 
-/* TYPED */
+/* TYPED TEXT */
 
 #typed {
   min-height:1.5em;
@@ -511,7 +692,7 @@ h1 {
   50% {opacity:0}
 }
 
-/* BIO */
+/* BIO - ABOUT ME */
 
 .bio {
   position:relative;
@@ -554,10 +735,6 @@ h1 {
   background:#39ff14;
   box-shadow:0 0 12px #39ff14;
   animation:livePulse 2s infinite;
-}
-
-@keyframes livePulse {
-  50% {opacity:.35}
 }
 
 /* META */
@@ -683,6 +860,7 @@ h1 {
 }
 
 .links a:hover::before {opacity:1}
+
 .links a:active {transform:scale(.97)}
 
 .ib {
@@ -737,7 +915,7 @@ h1 {
   to {transform:scale(28);opacity:0}
 }
 
-/* MUSIC */
+/* MUSIC PLAYER */
 
 .player {
   display:flex;
@@ -855,7 +1033,12 @@ input[type=range] {
   }
 
   h1 {font-size:1.85rem}
+
   input[type=range] {width:60px}
+
+  .intro-center {padding:40px 0 32px}
+  .intro {padding:16px}
+  .intro-motto {font-size:14px}
 }
 
 @media(max-width:360px) {
@@ -879,34 +1062,50 @@ html.rm *::after {
 <canvas id="fx"></canvas>
 <div class="spot"></div>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <div id="splash">
   <div class="intro">
 
-    <svg class="fingerprint"
-         viewBox="0 0 24 24"
-         fill="none"
-         stroke="currentColor"
-         stroke-width="1.8"
-         stroke-linecap="round"
-         stroke-linejoin="round"
-         aria-hidden="true">
+    <div class="intro-top">
+      <span>✦ TIKA.EXE / SYSTEM ONLINE</span>
+      <span class="intro-live">● LIVE</span>
+    </div>
 
-      <path d="M12 2a10 10 0 0 0-10 10"/>
-      <path d="M12 5a7 7 0 0 0-7 7"/>
-      <path d="M12 8a4 4 0 0 0-4 4"/>
-      <path d="M12 2a10 10 0 0 1 10 10"/>
-      <path d="M12 5a7 7 0 0 1 7 7"/>
-      <path d="M12 8a4 4 0 0 1 4 4"/>
-      <path d="M12 12v3"/>
-      <path d="M8 13c0 4-1 6-2 8"/>
-      <path d="M16 13c0 3 1 5 2 7"/>
-      <path d="M12 17v5"/>
+    <div class="intro-center">
 
-    </svg>
+      <div class="intro-orbit">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring ring-two"></div>
+        <span>♛</span>
+      </div>
 
-    <h2 id="splashText">ENTER THE PROFILE</h2>
-    <p>Click anywhere to access</p>
+      <p class="intro-kicker">WELCOME TO THE WORLD OF</p>
+
+      <h2 id="splashName"></h2>
+
+      <div class="intro-line"></div>
+
+      <p class="intro-motto">NO RULES. JUST VIBES.</p>
+
+      <p class="intro-sub">
+        DEVELOPER · GAMER · UNDERGROUND
+      </p>
+
+      <div class="intro-enter">
+        <span class="enter-icon">↗</span>
+        <div>
+          <b id="splashText"></b>
+          <small>CLICK ANYWHERE TO ACCESS</small>
+        </div>
+        <span class="enter-arrow">→</span>
+      </div>
+
+    </div>
+
+    <div class="intro-bottom">
+      <span>EST. 2026</span>
+      <span>ENCRYPTED CONNECTION</span>
+    </div>
 
   </div>
 </div>
@@ -1102,6 +1301,7 @@ document.querySelector('meta[property="og:description"]').content = CONFIG.bio.s
 
 /* BASIC DATA */
 
+$('splashName').textContent = CONFIG.name;
 $('splashText').textContent = CONFIG.splashText;
 $('avatar').src = CONFIG.avatar;
 $('name').textContent = CONFIG.name;
@@ -1501,6 +1701,15 @@ $('splash').addEventListener('click',()=>{
 
     } else {
       box.classList.remove('on');
+    }
+
+    if(
+      d.discord_user &&
+      d.discord_user.avatar &&
+      CONFIG.avatar.includes('dicebear')
+    ) {
+      $('avatar').src =
+        `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=256`;
     }
   }
 
