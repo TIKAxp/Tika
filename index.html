@@ -203,6 +203,7 @@ const CONFIG = {
   discordId: "718755571699810344",                 // ID Discord (số) cho trạng thái live qua Lanyard
   lanyardWs: "wss://api.lanyard.rest/socket", // đổi nếu tự host Lanyard
   avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=you",
+  favicon: "assets/favicon.gif",   // emoji, hoặc đường dẫn ảnh: "assets/favicon.png" / "https://..."
   background: { type: "video", src: "" },     // "video" | "image"; src: "assets/bg.mp4"
   music: { src: "", title: "Tên bài hát" },   // "assets/song.mp3"
   accent: "#ff9a4d",             // màu chủ đạo
@@ -279,7 +280,17 @@ document.title = CONFIG.name;
 document.querySelector('meta[property="og:title"]').content = CONFIG.name;
 document.querySelector('meta[name="description"]').content = CONFIG.bio.split('\n')[0];
 document.querySelector('meta[property="og:description"]').content = CONFIG.bio.split('\n')[0];
-if (CONFIG.avatar) $('fav').href = CONFIG.avatar;
+/* ---- Favicon riêng (emoji hoặc ảnh), không phụ thuộc avatar ---- */
+(function () {
+  const f = CONFIG.favicon;
+  if (!f) return;                       // để "" thì giữ icon 🖤 mặc định trong <head>
+  const isUrl = /^(https?:|data:|\/|\.\/|\.\.\/)|\.(png|jpe?g|gif|svg|ico|webp)(\?.*)?$/i.test(f);
+  $('fav').href = isUrl
+    ? f
+    : 'data:image/svg+xml,' + encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${f}</text></svg>`
+      );
+})();
 
 $('splashName').textContent = CONFIG.name;
 $('splashText').textContent = CONFIG.splashText;
