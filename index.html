@@ -330,21 +330,24 @@ body::before {
   height:42px;
   flex:none;
   border-radius:12px;
-  color:#071006;
-  background:#39ff14;
-  transition:transform .25s,box-shadow .25s;
+  background:transparent;
+  color:#39ff14;
+  box-shadow:none;
+  transition:transform .25s, filter .25s;
 }
 
 .enter-icon svg {
-  width:22px;
-  height:22px;
-  stroke:#071006;
+  width:25px;
+  height:25px;
+  stroke:#39ff14;
   stroke-width:1.8;
+  filter:drop-shadow(0 0 5px rgba(57,255,20,.65));
 }
 
 .intro-enter:hover .enter-icon {
-  transform:scale(1.06);
-  box-shadow:0 0 18px rgba(57,255,20,.4);
+  transform:scale(1.1);
+  box-shadow:none;
+  filter:drop-shadow(0 0 7px rgba(57,255,20,.5));
 }
 
 .intro-enter div {flex:1}
