@@ -1,0 +1,177 @@
+==============================================================
+HƯỚNG DẪN SỬ DỤNG TRANG BIO
+==============================================================
+
+Mọi thứ chỉnh trong khối CONFIG ở đầu thẻ <script>
+(đoạn nằm giữa "CONFIG: CHỈ CẦN SỬA PHẦN NÀY" và dòng ====).
+Không cần đụng vào phần code bên dưới.
+
+
+--------------------------------------------------------------
+1. ĐỔI ICON TAB (FAVICON) RIÊNG, TÁCH KHỎI AVATAR
+--------------------------------------------------------------
+
+BƯỚC 1: Thêm dòng favicon vào CONFIG, ngay dưới dòng avatar:
+
+    avatar: "https://api.dicebear.com/9.x/thumbs/svg?seed=you",
+    favicon: "🖤",
+
+BƯỚC 2: Tìm dòng này (nằm ở phần "Render"):
+
+    if (CONFIG.avatar) $('fav').href = CONFIG.avatar;
+
+Xoá nó và thay bằng đoạn sau:
+
+    /* ---- Favicon riêng (emoji hoặc ảnh), không phụ thuộc avatar ---- */
+    (function () {
+      const f = CONFIG.favicon;
+      if (!f) return;
+      const isUrl = /^(https?:|data:|\/|\.\/|\.\.\/)|\.(png|jpe?g|gif|svg|ico|webp)(\?.*)?$/i.test(f);
+      $('fav').href = isUrl
+        ? f
+        : 'data:image/svg+xml,' + encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${f}</text></svg>`
+          );
+    })();
+
+CÁCH DÙNG favicon:
+  - Emoji:            favicon: "🔥"
+  - Ảnh trong máy:    favicon: "assets/favicon.png"
+  - Link ảnh online:  favicon: "https://.../icon.png"
+  - Để trống "":      dùng icon 🖤 mặc định trong thẻ <head>
+
+LƯU Ý:
+  - Nên dùng ảnh PNG vuông, 64x64 hoặc 128x128.
+  - Trình duyệt cache favicon rất lâu. Nếu đổi mà tab chưa
+    cập nhật: bấm Ctrl+F5 hoặc mở tab ẩn danh để kiểm tra.
+  - Muốn có icon khi lưu trang ra màn hình chính điện thoại,
+    thêm vào <head>:
+    <link rel="apple-touch-icon" href="assets/favicon.png">
+
+
+--------------------------------------------------------------
+2. THÔNG TIN CƠ BẢN
+--------------------------------------------------------------
+
+  name        Tên hiển thị trên card và màn hình splash
+  username    Hiện dưới tên, bấm vào để copy ("" để ẩn)
+  showId      true = hiện thêm Discord ID cạnh username
+  verified    true = hiện tích xanh cạnh tên
+  avatar      Link ảnh đại diện
+              (nếu có discordId, avatar Discord sẽ tự thay thế
+              khi avatar đang dùng dicebear)
+  location    Địa điểm hiển thị
+  showTime    true = hiện giờ địa phương
+  timezone    Múi giờ, ví dụ "Asia/Ho_Chi_Minh"
+  splashText  Chữ trên màn hình splash
+  bio         Mô tả, dùng \n để xuống dòng
+
+
+--------------------------------------------------------------
+3. MÀU SẮC
+--------------------------------------------------------------
+
+  accent      Màu chủ đạo (viền, nút, hiệu ứng sáng)
+  accent2     Màu phụ (aurora, viền xoay quanh avatar)
+
+Dùng mã hex, ví dụ "#ff9a4d".
+
+
+--------------------------------------------------------------
+4. NỀN VÀ NHẠC
+--------------------------------------------------------------
+
+Nền:
+    background: { type: "video", src: "assets/bg.mp4" }
+    background: { type: "image", src: "assets/bg.jpg" }
+  Để src: "" thì chỉ dùng hiệu ứng aurora mặc định.
+
+Nhạc:
+    music: { src: "assets/song.mp3", title: "Tên bài hát" }
+  Nhạc tự phát sau khi người xem bấm vào màn hình splash
+  (trình duyệt không cho tự phát nếu chưa có thao tác).
+
+
+--------------------------------------------------------------
+5. BADGE (HUY HIỆU)
+--------------------------------------------------------------
+
+Hỗ trợ 2 kiểu:
+  - Emoji thường:          "🔥"
+  - Emoji Discord tuỳ chỉnh (có hoạt ảnh):
+        "<a:ten_emoji:ID>"     emoji động (gif)
+        "<:ten_emoji:ID>"      emoji tĩnh (png)
+
+Cách lấy: gõ \:ten_emoji: trong ô chat Discord rồi gửi,
+Discord sẽ hiện ra dạng <a:ten:ID>, copy nguyên chuỗi đó.
+
+
+--------------------------------------------------------------
+6. LINKS
+--------------------------------------------------------------
+
+Mỗi link là một dòng:
+    { label: "GitHub", note: "mô tả ngắn", url: "https://...", icon: "github" }
+
+  label   Tên hiển thị
+  note    Dòng chữ nhỏ bên dưới (bỏ trống thì tự lấy từ url)
+  url     Đường dẫn
+  icon    discord, github, tiktok, youtube, instagram,
+          facebook, telegram, link
+  copy    (tuỳ chọn) có thì bấm vào sẽ copy chuỗi này thay vì mở link
+
+Thêm hoặc xoá dòng tuỳ ý. Số link lẻ thì link cuối tự giãn
+full chiều ngang.
+
+
+--------------------------------------------------------------
+7. TRẠNG THÁI DISCORD LIVE (LANYARD)
+--------------------------------------------------------------
+
+  discordId   ID Discord dạng số của bạn
+
+Để hiện trạng thái online/idle/dnd, game đang chơi, Spotify:
+  1. Bật Developer Mode trong Discord, chuột phải vào tên mình,
+     chọn "Copy User ID".
+  2. Tham gia server Lanyard (discord.gg/lanyard). Bắt buộc,
+     nếu không Lanyard không theo dõi được tài khoản bạn.
+  3. Dán ID vào discordId.
+
+Đổi lanyardWs nếu bạn tự host Lanyard.
+
+
+--------------------------------------------------------------
+8. HIỆU ỨNG
+--------------------------------------------------------------
+
+  tilt                  true/false: bật tắt nghiêng 3D theo chuột
+  tiltMax               Độ nghiêng tối đa (0-25)
+  tiltStrength          Độ mạnh nghiêng
+  particles             "stars" | "snow" | "none"
+  respectReducedMotion  true = tắt hiệu ứng nếu hệ điều hành
+                        bật "giảm chuyển động"
+  typed                 Danh sách câu chạy chữ, thêm bớt tuỳ ý
+
+
+--------------------------------------------------------------
+9. BỘ ĐẾM LƯỢT XEM
+--------------------------------------------------------------
+
+  counterKey   Chuỗi bất kỳ, duy nhất cho trang của bạn.
+               Đổi chuỗi này thì bộ đếm bắt đầu lại từ 0.
+
+Nếu dịch vụ đếm lỗi, trang tự dùng bộ đếm cục bộ trên máy
+người xem.
+
+
+--------------------------------------------------------------
+10. ĐƯA TRANG LÊN MẠNG
+--------------------------------------------------------------
+
+Lưu file thành index.html, đặt cùng thư mục với folder assets/
+(chứa ảnh, video, nhạc, favicon). Upload lên GitHub Pages,
+Netlify, Vercel hoặc Cloudflare Pages đều được.
+
+Đường dẫn trong CONFIG tính từ vị trí file index.html.
+
+==============================================================
