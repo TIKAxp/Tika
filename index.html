@@ -67,7 +67,46 @@ h1{font:700 2.1rem/1.15 Outfit,sans-serif;letter-spacing:.02em;background:linear
 .vf{width:22px;height:22px;flex:none}
 .un{margin-top:2px;font-size:.88rem;color:var(--muted);transition:color .2s}
 .un:hover{color:var(--text)}
-.badges{display:flex;justify-content:center;gap:7px;margin-top:14px;flex-wrap:wrap}
+/* ---------- badges premium ---------- */
+.badges{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:16px;
+  flex-wrap:wrap;
+}
+.badges .bdg{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:36px;
+  height:36px;
+  padding:0 8px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 4px 12px rgba(0,0,0,.25);
+  transition:transform .25s, border-color .25s, box-shadow .25s;
+  font-size:1.05rem;
+  line-height:1;
+}
+.badges .bdg:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--accent) 45%,transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 8px 20px rgba(0,0,0,.35),
+    0 0 20px -6px color-mix(in srgb,var(--accent) 40%,transparent);
+}
+.badges .bdg img{
+  width:24px;
+  height:24px;
+  object-fit:contain;
+  border-radius:4px;
+  display:block;
+}
 .badges span{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.045);font-size:1rem}
 #typed{min-height:1.5em;margin-top:16px;font-weight:500;font-size:.95rem;color:color-mix(in srgb,var(--accent) 75%,#fff)}
 #typed::after{content:"";display:inline-block;width:1.5px;height:1em;margin-left:3px;vertical-align:-2px;background:currentColor;animation:blink 1s steps(1) infinite}
@@ -168,7 +207,7 @@ const CONFIG = {
   music: { src: "", title: "Tên bài hát" },   // "assets/song.mp3"
   accent: "#ff9a4d",             // màu chủ đạo
   accent2: "#5b7cfa",            // màu phụ cho aurora / viền avatar
-  splashText: "nhấn để vào cuộc chơi",
+  splashText: "nhấn để bắt đầu",
   location: "📍 Vietnam",
   showTime: true,                // giờ địa phương
   timezone: "Asia/Ho_Chi_Minh",
@@ -192,8 +231,8 @@ const CONFIG = {
   counterKey: "slayer.tika-bio-2026",  // bộ đếm view dùng chung
   respectReducedMotion: false,   // true = tắt mọi hiệu ứng nếu hệ điều hành bật "giảm chuyển động"
   tilt: true,
-  tiltMax: 14,                   // độ nghiêng tối đa (độ), 0-25
-  tiltStrength: 16,              // độ nghiêng (độ). 7 = nhẹ, 16 = rõ, 25 = mạnh
+  tiltMax: 25,                   // độ nghiêng tối đa (độ), 0-25
+  tiltStrength: 25,              // độ nghiêng (độ). 7 = nhẹ, 16 = rõ, 25 = mạnh
   particles: "stars"             // "snow" | "stars" | "none"
 };
 /* ============================================================ */
@@ -246,8 +285,19 @@ $('splashText').textContent = CONFIG.splashText;
 $('avatar').src = CONFIG.avatar;
 $('name').textContent = CONFIG.name;
 $('bio').textContent = CONFIG.bio;
-$('badges').innerHTML = CONFIG.badges.map(b => `<span>${b}</span>`).join('');
-if (!CONFIG.badges.length) $('badges').remove();
+/* ---- Badges (hỗ trợ emoji Discord tùy chỉnh + animated) ---- */
+function parseBadge(b) {
+  const m = String(b).match(/^<(a)?:([\w~]+):(\d+)>$/);
+  if (m) {
+    const animated = !!m[1];
+    const id = m[3];
+    const ext = animated ? 'gif' : 'png';
+    return `<span class="bdg"><img src="https://cdn.discordapp.com/emojis/${id}.${ext}?size=48&quality=lossless" alt="${m[2]}" loading="lazy"></span>`;
+  }
+  return `<span class="bdg">${b}</span>`;
+}
+$('badges').innerHTML = (CONFIG.badges || []).map(parseBadge).join('');
+if (!CONFIG.badges?.length) $('badges').remove();
 if (CONFIG.verified) $('vf').innerHTML = `<svg class="vf" viewBox="0 0 24 24" aria-label="Verified"><path d="M12 2l2.400 2.200 3.200-.4 1.200 3 2.900 1.500-.9 3.100.9 3.100-2.900 1.500-1.200 3-3.200-.4L12 22l-2.400-2.200-3.200.4-1.200-3-2.900-1.500.9-3.100-.9-3.100 2.900-1.500 1.200-3 3.200.4Z" fill="var(--accent)"/><path d="m8.500 12 2.500 2.500 4.500-5" fill="none" stroke="#0b0b10" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 const un = $('un');
