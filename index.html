@@ -1377,32 +1377,30 @@ $('splash').addEventListener('click',()=>{
   }
 });
 
-/* VIEW COUNTER */
-(async function () {
+/* VIEW COUNTER - CounterAPI.com */
+(function () {
   const el = $('views');
 
-  try {
-    const response = await fetch(
-      `https://api.counterapi.dev/v1/${CONFIG.counterKey}/views/up`,
-      { cache: 'no-store' }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Counter API error: ${response.status}`);
+  window.tikaCounterCallback = function (data) {
+    if (data && typeof data.value !== 'undefined') {
+      el.textContent = Number(data.value).toLocaleString('vi-VN');
+    } else {
+      el.textContent = '—';
     }
+  };
 
-    const data = await response.json();
+  const script = document.createElement('script');
 
-    if (typeof data.count !== 'number') {
-      throw new Error('Invalid counter response');
-    }
+  script.src =
+    'https://counterapi.com/api/tikaxp.github.io/view/slayer-tika-profile?callback=tikaCounterCallback';
 
-    el.textContent = data.count.toLocaleString('vi-VN');
+  script.async = true;
 
-  } catch (error) {
-    console.error('Không thể cập nhật lượt truy cập:', error);
+  script.onerror = function () {
     el.textContent = '—';
-  }
+  };
+
+  document.body.appendChild(script);
 })();
 
 /* DISCORD LIVE STATUS */
