@@ -1377,30 +1377,23 @@ $('splash').addEventListener('click',()=>{
   }
 });
 
-/* VIEW COUNTER - CounterAPI.com */
+/* VIEW COUNTER */
 (function () {
   const el = $('views');
+  const KEY = 'slayer-tika-profile'; // hoặc key nào bạn muốn
 
-  window.tikaCounterCallback = function (data) {
-    if (data && typeof data.value !== 'undefined') {
-      el.textContent = Number(data.value).toLocaleString('vi-VN');
-    } else {
+  fetch(`https://countapi.mileshilliard.com/api/v1/hit/${KEY}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data && typeof data.value !== 'undefined') {
+        el.textContent = Number(data.value).toLocaleString('vi-VN');
+      } else {
+        el.textContent = '—';
+      }
+    })
+    .catch(() => {
       el.textContent = '—';
-    }
-  };
-
-  const script = document.createElement('script');
-
-  script.src =
-    'https://counterapi.com/api/tikaxp.github.io/view/slayer-tika-profile?callback=tikaCounterCallback';
-
-  script.async = true;
-
-  script.onerror = function () {
-    el.textContent = '—';
-  };
-
-  document.body.appendChild(script);
+    });
 })();
 
 /* DISCORD LIVE STATUS */
