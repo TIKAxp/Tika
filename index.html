@@ -114,40 +114,10 @@ body::before {
   z-index:100;
   display:grid;
   place-items:center;
-  background:
-    radial-gradient(ellipse at 50% 45%,
-      rgba(57,255,20,.10),
-      transparent 55%),
-    #050709;
+  background:#050508;
   cursor:pointer;
   text-align:center;
-  overflow:hidden;
-  transition:opacity .8s,visibility .8s;
-}
-
-#splash::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    linear-gradient(rgba(57,255,20,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(57,255,20,.035) 1px,transparent 1px);
-  background-size:45px 45px;
-  -webkit-mask-image:radial-gradient(ellipse,#000,transparent 75%);
-  mask-image:radial-gradient(ellipse,#000,transparent 75%);
-}
-
-#splash::after {
-  content:"";
-  position:absolute;
-  width:400px;
-  height:400px;
-  border-radius:50%;
-  background:#39ff14;
-  filter:blur(180px);
-  opacity:.09;
-  pointer-events:none;
+  transition:opacity .9s,visibility .9s;
 }
 
 #splash.hide {
@@ -156,231 +126,34 @@ body::before {
   pointer-events:none;
 }
 
-.intro {
-  position:relative;
-  z-index:2;
-  width:min(500px,calc(100vw - 40px));
-  padding:20px;
-  border:1px solid rgba(57,255,20,.20);
-  border-radius:24px;
-  background:linear-gradient(
-    145deg,
-    rgba(255,255,255,.045),
-    rgba(255,255,255,.008)
-  );
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  box-shadow:
-    0 0 50px rgba(57,255,20,.055),
-    inset 0 1px rgba(255,255,255,.07);
-  animation:introIn 1.2s cubic-bezier(.2,.8,.2,1) both;
-}
-
-@keyframes introIn {
-  from {
-    opacity:0;
-    transform:translateY(25px) scale(.96);
-    filter:blur(10px);
-  }
-  to {
-    opacity:1;
-    transform:translateY(0) scale(1);
-    filter:blur(0);
-  }
-}
-
-.intro-top,
-.intro-bottom {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  color:#718477;
-  font-size:10px;
-  letter-spacing:2px;
-}
-
-.intro-top span:first-child {
-  color:#39ff14;
-}
-
-.intro-live {
-  color:#39ff14;
-  animation:livePulse 2s infinite;
-}
-
-@keyframes livePulse {
-  50% {opacity:.35}
-}
-
-.intro-center {
-  text-align:center;
-  padding:48px 0 40px;
-}
-
-.intro-orbit {
-  position:relative;
-  width:90px;
-  height:90px;
-  margin:0 auto 30px;
-  display:grid;
-  place-items:center;
-  color:#39ff14;
-  font-size:38px;
-  text-shadow:0 0 25px #39ff14;
-}
-
-.orbit-ring {
-  position:absolute;
-  inset:0;
-  border:1px solid rgba(57,255,20,.65);
-  border-radius:50%;
-  animation:spin 8s linear infinite;
-}
-
-.orbit-ring::before {
-  content:"";
-  position:absolute;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#39ff14;
-  box-shadow:0 0 15px #39ff14;
-  top:8px;
-  left:12px;
-}
-
-.ring-two {
-  inset:-10px;
-  border-style:dashed;
-  opacity:.35;
-  animation:spin 15s linear infinite reverse;
-}
-
-.intro-kicker {
-  font-size:10px;
-  letter-spacing:4px;
-  color:#84918a;
-  margin-bottom:12px;
-}
-
 #splash h2 {
-  font:800 clamp(2.3rem,9vw,3.8rem)/1 Outfit,sans-serif;
-  letter-spacing:.08em;
-  padding:0;
-  background:linear-gradient(180deg,#fff,#a9ff9b 65%,#39ff14);
+  font:700 clamp(1.8rem,8vw,3.2rem)/1.1 Outfit,sans-serif;
+  letter-spacing:.22em;
+  padding-left:.22em;
+  background:linear-gradient(180deg,#fff,#8f8d9b);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
+  animation:fadeIn 1.2s both;
 }
 
-.intro-line {
-  width:100px;
-  height:2px;
-  margin:22px auto;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    #39ff14,
-    transparent
-  );
-  box-shadow:0 0 15px rgba(57,255,20,.6);
+.ld {
+  width:140px;
+  height:1px;
+  margin:22px auto 16px;
+  background:linear-gradient(90deg,transparent,#39ff14,transparent);
+  animation:ld 1.8s ease-in-out infinite;
 }
 
-.intro-motto {
-  color:#39ff14;
-  font:700 17px Outfit,sans-serif;
-  letter-spacing:4px;
+@keyframes ld {
+  50% {transform:scaleX(.35);opacity:.4}
 }
 
-.intro-sub {
-  margin-top:12px;
-  font-size:10px;
-  letter-spacing:2px;
-  color:#77847a;
-}
-
-/* ENTER BUTTON */
-
-.intro-enter {
-  display:flex;
-  align-items:center;
-  gap:14px;
-  text-align:left;
-  margin-top:38px;
-  padding:17px;
-  border:1px solid rgba(57,255,20,.3);
-  border-radius:15px;
-  background:rgba(57,255,20,.045);
-  transition:.3s;
-}
-
-.intro-enter:hover {
-  border-color:#39ff14;
-  background:rgba(57,255,20,.11);
-  box-shadow:0 0 30px rgba(57,255,20,.12);
-  transform:translateY(-3px);
-}
-
-/* GREEN ICON BOX */
-
-.enter-icon {
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  flex:none;
-  background:transparent;
-  color:#39ff14;
-}
-
-.enter-icon svg {
-  width:27px;
-  height:27px;
-  stroke:#39ff14;
-  filter:drop-shadow(0 0 4px rgba(57,255,20,.8));
-}
-
-.intro-enter:hover .enter-icon svg {
-  filter:drop-shadow(0 0 9px #39ff14);
-  transform:scale(1.08);
-}
-
-.intro-enter div {flex:1}
-
-.intro-enter b {
-  display:block;
-  color:#fff;
-  font:700 13px Outfit,sans-serif;
-  letter-spacing:1px;
-}
-
-.intro-enter small {
-  display:block;
-  color:#84918a;
-  font-size:9px;
-  letter-spacing:1px;
-  margin-top:4px;
-}
-
-.enter-arrow {
-  color:#39ff14;
-  font-size:22px;
-  animation:arrowMove 1.2s ease-in-out infinite;
-}
-
-@keyframes arrowMove {
-  50% {transform:translateX(5px)}
-}
-
-.intro-bottom {
-  padding-top:15px;
-  border-top:1px solid rgba(255,255,255,.07);
-}
-
-#splash.hide .intro {
-  transform:scale(1.04);
-  opacity:0;
-  transition:.7s;
+#splash span {
+  color:var(--muted);
+  font-size:.9rem;
+  letter-spacing:.06em;
+  animation:fadeIn 1s 1s both;
 }
 
 /* MAIN */
@@ -1043,9 +816,6 @@ input[type=range] {
 
   input[type=range] {width:60px}
 
-  .intro-center {padding:40px 0 32px}
-  .intro {padding:16px}
-  .intro-motto {font-size:14px}
 }
 
 @media(max-width:360px) {
@@ -1071,70 +841,10 @@ html.rm *::after {
 
 <!-- SPLASH -->
 <div id="splash">
-  <div class="intro">
-
-    <div class="intro-top">
-      <span>✦ TIKA.EXE / SYSTEM ONLINE</span>
-      <span class="intro-live">● LIVE</span>
-    </div>
-
-    <div class="intro-center">
-
-      <div class="intro-orbit">
-        <div class="orbit-ring"></div>
-        <div class="orbit-ring ring-two"></div>
-        <span>♛</span>
-      </div>
-
-      <p class="intro-kicker">WELCOME TO THE WORLD OF</p>
-
-      <h2 id="splashName"></h2>
-
-      <div class="intro-line"></div>
-
-      <p class="intro-motto">NO RULES. JUST VIBES.</p>
-
-      <p class="intro-sub">
-        DEVELOPER · GAMER · UNDERGROUND
-      </p>
-
-      <div class="intro-enter">
-
-        <span class="enter-icon">
-          <svg viewBox="0 0 24 24"
-               fill="none"
-               stroke="currentColor"
-               stroke-width="2"
-               stroke-linecap="round"
-               stroke-linejoin="round">
-            <path d="M3 11a9 9 0 0 1 18 0"/>
-            <path d="M6 11a6 6 0 0 1 12 0"/>
-            <path d="M9 11a3 3 0 0 1 6 0"/>
-            <path d="M12 11v5"/>
-            <path d="M8 13v3.5"/>
-            <path d="M16 13v3.5"/>
-            <path d="M5 13v1"/>
-            <path d="M19 13v1"/>
-            <path d="M8 20c.5-1 .8-2 .9-3"/>
-            <path d="M15.1 17c.1 1 .4 2 .9 3"/>
-          </svg>
-        </span>
-
-        <div>
-          <b id="splashText"></b>
-          <small>CLICK ANYWHERE TO ACCESS</small>
-        </div>
-
-        <span class="enter-arrow">→</span>
-      </div>
-
-    </div>
-
-    <div class="intro-bottom">
-      <span>EST. 2026</span>
-      <span>ENCRYPTED CONNECTION</span>
-    </div>
-
+  <div>
+    <h2 id="splashName"></h2>
+    <div class="ld"></div>
+    <span id="splashText"></span>
   </div>
 </div>
 
@@ -1215,7 +925,7 @@ const CONFIG = {
   accent:"#39ff14",
   accent2:"#39ff14",
 
-  splashText:"ENTER THE PROFILE",
+  splashText:"nhấn để vào cuộc chơi",
 
   location:"📍 Vietnam",
   showTime:true,
