@@ -334,40 +334,6 @@ body.go .rv {
   50% {opacity:.55;transform:scale(1.08)}
 }
 
-.st {
-  position:absolute;
-  right:4px;
-  bottom:4px;
-  z-index:2;
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  border:5px solid #0b0b10;
-  background:#747f8d;
-  color:#747f8d;
-}
-
-.st.online {
-  background:#23a55a;
-  color:#23a55a;
-  animation:pulse 2.6s infinite;
-}
-
-.st.idle {
-  background:#f0b232;
-  color:#f0b232;
-}
-
-.st.dnd {
-  background:#f23f43;
-  color:#f23f43;
-  animation:pulse 2.6s infinite;
-}
-
-@keyframes pulse {
-  0% {box-shadow:0 0 0 0 color-mix(in srgb,currentColor 55%,transparent)}
-  70%,100% {box-shadow:0 0 0 9px transparent}
-}
 
 /* IDENTITY */
 
@@ -854,7 +820,6 @@ html.rm *::after {
 
   <div class="av rv">
     <img id="avatar" alt="Avatar">
-    <i class="st" id="status"></i>
   </div>
 
   <div class="nm rv">
@@ -907,7 +872,6 @@ const CONFIG = {
   verified:true,
 
   discordId:"718755571699810344",
-  lanyardWs:"wss://api.lanyard.rest/socket",
 
   avatar:"assets/avatar.gif",
   favicon:"assets/danchoi_logo-removebg-preview.png",
@@ -1396,82 +1360,32 @@ $('splash').addEventListener('click',()=>{
     });
 })();
 
-/* DISCORD LIVE STATUS */
+/* DISCORD PRESENCE - FIXED DEFAULT */
 
-(function connect(){
-  if(!CONFIG.discordId) return;
-
-  const dot = $('status');
-  const box = $('presence');
-
-  function render(d) {
-    dot.className = 'st '+d.discord_status;
-
-    const act = (d.activities||[]).find(a=>a.type!==4);
-
-    if(d.listening_to_spotify && d.spotify) {
-      $('pimg').src = d.spotify.album_art_url;
-      $('ptitle').textContent = d.spotify.song;
-      $('psub').textContent = 'Spotify · '+d.spotify.artist;
-      box.classList.add('on');
-
-    } else if(act) {
-      const img = act.assets && act.assets.large_image;
-
-      $('pimg').src = img
-        ? (
-            img.startsWith('mp:external')
-              ? 'https://'+img.split('/https/')[1]
-              : `https://cdn.discordapp.com/app-assets/${act.application_id}/${img}.png`
-          )
-        : 'https://cdn.discordapp.com/embed/avatars/0.png';
-
-      $('ptitle').textContent = act.name;
-      $('psub').textContent = act.details || act.state || 'Đang chơi';
-
-      box.classList.add('on');
-
-    } else {
-      box.classList.remove('on');
-    }
-
-    if(
-      d.discord_user &&
-      d.discord_user.avatar &&
-      CONFIG.avatar.includes('dicebear')
-    ) {
-      $('avatar').src =
-        `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=256`;
+const DISCORD_PRESENCE = {
+  "𝕯𝖆̂𝖓 𝕮𝖍𝖔̛𝖎": {
+    application_id: "1538837256104841256",
+    name: "𝕯𝖆̂𝖓 𝕮𝖍𝖔̛𝖎",
+    type: 0,
+    state: "Playing Solo",
+    timestamps: {
+      elapsed_hours: 99999,
+      elapsed_minutes: 37,
+      elapsed_seconds: 45
     }
   }
+};
 
-  try {
-    const ws = new WebSocket(CONFIG.lanyardWs);
-    let hb;
+(function renderDefaultPresence() {
+  const presence = Object.values(DISCORD_PRESENCE)[0];
+  if (!presence) return;
 
-    ws.onmessage = e=>{
-      const m = JSON.parse(e.data);
+  // Reuse the profile artwork already configured in the page metadata.
+  $('pimg').src = 'https://tikaxp.github.io/Tika/assets/danchoi.gif';
 
-      if(m.op===1) {
-        ws.send(JSON.stringify({
-          op:2,
-          d:{subscribe_to_id:CONFIG.discordId}
-        }));
-
-        hb = setInterval(()=>{
-          ws.send(JSON.stringify({op:3}));
-        },m.d.heartbeat_interval);
-      }
-
-      if(m.op===0) render(m.d);
-    };
-
-    ws.onclose = ()=>{
-      clearInterval(hb);
-      setTimeout(connect,5000);
-    };
-
-  } catch {}
+  $('ptitle').textContent = presence.name;
+  $('psub').textContent = presence.state;
+  $('presence').classList.add('on');
 })();
 
 /* MOUSE LIGHT + 3D TILT */
