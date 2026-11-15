@@ -1137,14 +1137,14 @@ $('meta').innerHTML =
 
 /* SOCIAL LINKS */
 
-$('links').innerHTML = CONFIG.links.map((l, i) => {
+$('links').innerHTML = CONFIG.links.map((l,i)=>{
   const note =
     l.note ||
-    '@' + (l.url.split('/').filter(Boolean).pop() || '').replace(/^@/, '');
+    '@'+(l.url.split('/').filter(Boolean).pop()||'').replace(/^@/,'');
 
-  // Discord Server sử dụng ảnh của DISCORD PRESENCE.
+  // Logo riêng cho Discord Server, độc lập với ảnh Discord Profile/Presence.
   const linkImage = l.label === 'Discord Server'
-    ? $('pimg').src
+    ? 'https://tikaxp.github.io/Tika/assets/danchoi.gif'
     : l.image;
 
   return `
@@ -1154,12 +1154,11 @@ $('links').innerHTML = CONFIG.links.map((l, i) => {
       target="_blank"
       rel="noopener"
       data-i="${i}"
-      style="--b:${COL[l.icon] || 'var(--accent)'}"
+      style="--b:${COL[l.icon]||'var(--accent)'}"
     >
       <span class="ib">${linkImage
         ? `<img src="${linkImage}" alt="${l.label}" loading="lazy">`
         : ic(l.icon)}</span>
-
       <span class="tx">
         <b>${l.label}</b>
         <small>${note}</small>
